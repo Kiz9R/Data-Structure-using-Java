@@ -170,6 +170,155 @@ class list {
     }
   }
 
+  static void findMidPoint(list l1) {
+    node p = l1.h;
+    node q = l1.h;
+    while (q.next != null && q.next.next != null) {
+      p = p.next;
+      q = q.next.next;
+    }
+    System.out.println("The mid point of the given list is:-" + p.info);
+  }
+
+  static void sorting(list l1) {
+    node p = l1.h;
+    node q = l1.h.next;
+    while (p.next != null) {
+      while (q != null) {
+        if (p.info > q.info) {
+          int temp = p.info;
+          p.info = q.info;
+          q.info = temp;
+          // System.out.println(p.info);
+        }
+        if (q.next != null)
+          q = q.next;
+        else
+          break;
+        // System.out.println(q.info);
+      }
+      p = p.next;
+      // System.out.println(p.info);
+      if (p.next != null)
+        q = p.next;
+      // System.out.println(q.info);
+    }
+    System.out.println("sorting");
+    dis(l1);
+  }
+
+  static void keepNskip(list l1, int m, int n) {
+    node a = l1.h;
+    node b;
+    int x, y;
+    while (true) {
+      x = 1;
+      while (x < m && a.next != null) {
+        System.out.println(" inf :  " + a.info);
+        a = a.next;
+        x++;
+      }
+
+      b = a.next;
+      y = 1;
+      while (y < n && b != null) {
+        System.out.println(" Hi " + b.info);
+        b = b.next;
+        y++;
+      }
+      System.out.println(" next ");
+      if (b != null) {
+        a.next = b.next;
+        a = b.next;
+      } else {
+        break;
+      }
+    }
+    dis(l1);
+    System.out.println();
+  }
+
+  static void nthEnd(list l1, int n) {
+    node p = l1.h;
+    node q = l1.h;
+    int c = 0;
+    while (q != null) {
+      if (c != n) {
+        q = q.next;
+        c++;
+      } else {
+        p = p.next;
+        q = q.next;
+      }
+    }
+    System.out.println("The element is:-" + p.info);
+  }
+
+  static void findCommonElement(list l1) {
+    node p = l1.h;
+
+    int com = 0, k = 0, k1 = 0;
+
+    if (p == null) {
+      System.out.println("Not a valid LinkList");
+      return;
+    } else {
+      node q = l1.h.next;
+      while (q != null) {
+        if (p.info == q.info) {
+          k++;
+          com = p.info;
+          p = p.next;
+          q = q.next;
+        } else {
+          if (k > 0) {
+            System.out.println("The common Value:" + com + " Occurance" + (k + 1));
+            k1 = 1;
+            k = 0;
+            com = 0;
+          }
+          p = p.next;
+          q = q.next;
+        }
+
+      }
+      if (k > 0) {
+        System.out.println("The common Value:" + com + " Occurance" + (k + 1));
+        k1 = 1;
+        k = 0;
+        com = 0;
+      }
+      if (k1 == 0) {
+        System.out.println("No common elements found");
+      }
+    }
+  }
+
+  static void removeDuplicates(list l1) {
+
+    node p = l1.h;
+    // int f = 0;
+
+    if (p == null) {
+      return;
+    }
+
+    while (p != null) {
+      node q = p.next;
+      node prev = p;
+      while (q != null) {
+        if (p.info != q.info) {
+          prev = prev.next;
+          q = q.next;
+        } else
+          break;
+
+      }
+      prev = prev.next.next;
+      p = p.next;
+    }
+  }
+
   public static void main(String a[]) {
     // int d;
     list ls1 = new list();
@@ -184,7 +333,10 @@ class list {
     while (true) {
       System.out.println(" \n\n 1: create, 2: insert at beg, 3: printReverse ");
       System.out.println("4: Merge & check,5: removeDuplicateInSortedList ");
-      System.out.println("\n 6: mergeTwoSortedList ,  9:Quit ");
+      System.out.println(
+          "\n 6: mergeTwoSortedList , 7: finding mid node,8: Sorting linklist , 9:keep & skip ele ,10: find nth node from last ,11: Quit ");
+      System.out.println(
+          "\n 12:find common elements in a sorted linklist, 13:remove dublicate elements form an onordered linklist");
       ch = input1.nextInt();
 
       switch (ch) {
@@ -241,14 +393,64 @@ class list {
           mergeSortedTwoList(ls1, ls2, r);
           dis(r);
           break;
+        case 7:
+          System.out.println("press 1 for first list and 2 for second list");
+          int in = input1.nextInt();
+          if (in == 1) {
+            findMidPoint(ls1);
+          } else if (in == 2)
+            findMidPoint(ls2);
+          else
+            findMidPoint(ls3);
+          break;
+        case 8:
+          System.out.println("press 1 for first list and 2 for second list and 3 for the 3rd linkedList");
+          int in2 = input1.nextInt();
+          if (in2 == 1)
+            sorting(ls1);
+
+          else if (in2 == 2)
+            sorting(ls2);
+
+          else
+            sorting(ls3);
+          break;
         case 9:
+          System.out.println(" Possible in 1st List only ");
+          Scanner in1 = new Scanner(System.in);
+          System.out.println(" enter no of ele to keep : ");
+          int m = in1.nextInt();
+          System.out.println(" enter no of ele to skip  : ");
+          int n = in1.nextInt();
+          keepNskip(ls1, m, n);
+          dis(ls1);
+          break;
+        case 10:
+          System.out.println("possible in 1st list ");
+          Scanner in3 = new Scanner(System.in);
+          System.out.println("Nth node from the end");
+          int n1 = in3.nextInt();
+          nthEnd(ls1, n1);
+
+          break;
+        case 11:
           return;
+
+        case 12:
+          System.out.println("possible in 1st list and if the linkedlist is sorted ");
+          // sorting(ls1);
+          findCommonElement(ls1);
+          break;
+
+        case 13:
+          System.out.println("possible in 1st list and if the linkedlist is sorted ");
+          removeDuplicates(ls1);
+          break;
         default:
           System.out.println(" wrong choice : enter again : ");
           input1.close();
       }
 
     }
-
   }
 }
